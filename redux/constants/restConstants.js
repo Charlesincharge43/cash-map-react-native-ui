@@ -17,7 +17,7 @@ const GOOGLEMAPSINIT = MAPS_API_PREFIX + '/js';
 const GOOGLEMAPS_NEARBY_SEARCH_JSON = MAPS_API_PREFIX + '/place/nearbysearch/json';
 const GOOGLEMAPS_NEARBY_SEARCH_XML = MAPS_API_PREFIX + '/place/nearbysearch/xml';
 /* API KEYS */
-const GOOGLEMAPS_API_KEY = 'ENTERKEYHERE!!';
+const GOOGLEMAPS_API_KEY = 'AIzaSyDmmv0_ef7i09ZhGHnZlXAiqFysl9RbGQg';
 
 // ^ if you want to test google maps API, you'll need to fill in the google maps js API key above
 // see https://developers.google.com/maps/documentation/javascript/get-api-key for more details
