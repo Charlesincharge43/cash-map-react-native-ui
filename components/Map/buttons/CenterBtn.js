@@ -1,13 +1,11 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Image } from 'react-native';
 
 import styles from './styles';
 import btnFactory from '../../shared/hoc/btnFactory';
 
 const CenterBtnView = () =>
-  <Text style={styles.centerBtnText}>
-    CENTER
-  </Text>
+  <Image source={require('./img/my_location_icon.png')} style={styles.centerBtnImage} />
 
 const CenterBtn = btnFactory(CenterBtnView);
 
