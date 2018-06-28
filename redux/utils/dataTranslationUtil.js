@@ -19,7 +19,6 @@ export const translateGoogleMapsNearbySearchResponse = (res) => {
   // console.log(res.data)
   // console.log(res.data.results)
   const pois = res.data.results.map(place => {
-    // console.log(place)
     return {
       coordinate: {
         latitude: place.geometry.location.lat,
@@ -27,6 +26,7 @@ export const translateGoogleMapsNearbySearchResponse = (res) => {
       },
       identifier: place.id,
       title: place.name,
+      additionalDetails: place
     }
   })
   const next_page_token = res.data.next_page_token;
