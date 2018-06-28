@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
     padding: 14,
   },
   cardLogo: {
+    width: 100,
+    resizeMode: 'cover',
   },
   placeHeading: {
     fontSize: 20,
@@ -34,6 +36,10 @@ const styles = StyleSheet.create({
   },
   infoTextSmall: {
     color: 'grey',
+    fontSize: 15,
+  },
+  stars: {
+    color: 'orange',
     fontSize: 15,
   },
   infoTextSmallDivider: {

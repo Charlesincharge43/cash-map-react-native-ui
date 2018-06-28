@@ -190,7 +190,7 @@ class StatefulMap extends Component {
     return (
       <View style={styles.mapContainer}>
         <Hamburger style={styles.topLeft} onPress={openDrawer} />
-        <NearbySearch />
+        {/* <NearbySearch /> */}
 
         <MapViewContainer
           trackCurrentPosition={this.state.trackCurrentPosition}
