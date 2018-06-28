@@ -83,10 +83,24 @@ class StatefulMap extends Component {
   }
 
   showPOIDetails(selectedPOIDetailIdx) {
-    this.setState({
-      isPOIDetailsHidden: false,
-      selectedPOIDetailIdx: selectedPOIDetailIdx,
-    })
+    console.log('hidden? ', this.state.isPOIDetailsHidden)
+    if (!this.state.isPOIDetailsHidden) {
+      console.log('resetting POI Detail')
+      this.setState({
+        isPOIDetailsHidden: true
+      })
+      setTimeout(() => {
+        this.setState({
+          isPOIDetailsHidden: false,
+          selectedPOIDetailIdx: selectedPOIDetailIdx,
+        })
+      }, 500)
+    } else {
+      this.setState({
+        isPOIDetailsHidden: false,
+        selectedPOIDetailIdx: selectedPOIDetailIdx,
+      })
+    }
   }
 
   hidePOIDetails() {

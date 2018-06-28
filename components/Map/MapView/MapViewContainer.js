@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 
@@ -18,20 +18,20 @@ These two containers and the withGeolocation hoc all are badly in in need of ref
 */
 
 class MapViewContainer extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      renderUserInteractionRestrictedMap : false,
-      selectedIdx : null,
-     }
+      renderUserInteractionRestrictedMap: false,
+      selectedIdx: null,
+    }
   }
 
-  static getDerivedStateFromProps(nextProps){
+  static getDerivedStateFromProps(nextProps) {
     // console.log('next props length : ',  nextProps.placesOfInterest.length)
     // console.log(nextProps)
     if (nextProps.placesOfInterest.length === 0) {
       return {
-        selectedIdx : null,
+        selectedIdx: null,
       }
     }
     return null;
@@ -43,11 +43,11 @@ class MapViewContainer extends React.Component {
     }
   }
 
-  isTrackingAndPositionChanged(prevProps){
+  isTrackingAndPositionChanged(prevProps) {
     return prevProps.trackCurrentPosition && (prevProps.region !== this.props.region);
   }
 
-  adjustMapToGeoloc(){
+  adjustMapToGeoloc() {
     this.setState({
       renderUserInteractionRestrictedMap: true
     })
@@ -59,13 +59,20 @@ class MapViewContainer extends React.Component {
   }
 
   setSelectedIdx(idx) {
-    this.setState({
-      selectedIdx: idx
-    })
-    if (idx !== null){
-      this.props.showPOIDetails(idx);
+
+    if (idx !== null) {
+      if (idx !== this.state.selectedIdx) {
+        this.props.showPOIDetails(idx);
+        this.setState({
+          selectedIdx: idx
+        })
+      }
+
     } else {
       this.props.hidePOIDetails(idx);
+      this.setState({
+        selectedIdx: idx
+      })
     }
     /* do something here - fetch POI detail etc. */
     // this.props.fetchPOIDetail(e.nativeEvent.coordinate);
@@ -74,31 +81,31 @@ class MapViewContainer extends React.Component {
   render() {
     return (
 
-    <View style={styles.mapContainer}>
-      {this.props.trackCurrentPosition && this.state.renderUserInteractionRestrictedMap ?
+      <View style={styles.mapContainer}>
+        {this.props.trackCurrentPosition && this.state.renderUserInteractionRestrictedMap ?
 
-        <MapView
-          style={styles.map}
-          region={this.props.region}
-          showsUserLocation={true}
-          onRegionChange={this.props.onRegionChange}
-          onMapReady={this.props.onMapReady}/>
+          <MapView
+            style={styles.map}
+            region={this.props.region}
+            showsUserLocation={true}
+            onRegionChange={this.props.onRegionChange}
+            onMapReady={this.props.onMapReady} />
 
-        :
+          :
 
-        <MapView
-          style={styles.map}
-          initialRegion={this.props.region}
-          showsUserLocation={true}
-          onPress={(e) => {
-            /* Note: do NOT console log the event by itself ever.  You can console log e.nativeEvent just fine
-              but attempting to log just the `e` will cause the map to not work correctly! */
-            // console.log(e.nativeEvent);// uncomment to easily grab coordinate info by pressing anywhere on the map
-            this.setSelectedIdx(null);
-          }}
-          onRegionChange={this.props.onRegionChange}
-          onRegionChangeComplete={this.props.onRegionChangeComplete}
-          onMapReady={this.props.onMapReady}>
+          <MapView
+            style={styles.map}
+            initialRegion={this.props.region}
+            showsUserLocation={true}
+            onPress={(e) => {
+              /* Note: do NOT console log the event by itself ever.  You can console log e.nativeEvent just fine
+                but attempting to log just the `e` will cause the map to not work correctly! */
+              // console.log(e.nativeEvent);// uncomment to easily grab coordinate info by pressing anywhere on the map
+              this.setSelectedIdx(null);
+            }}
+            onRegionChange={this.props.onRegionChange}
+            onRegionChangeComplete={this.props.onRegionChangeComplete}
+            onMapReady={this.props.onMapReady}>
 
             {
               /* Note.. MapView Markers MUST be DIRECT children of MapView.
@@ -112,45 +119,45 @@ class MapViewContainer extends React.Component {
                 const bestReward = categoryObj.cards[0].reward;
                 const getColor = (idx) => {
                   let color;
-                  if (idx === this.state.selectedIdx){
+                  if (idx === this.state.selectedIdx) {
                     color = 'yellow';
                   } else {
-                    if (bestReward === 6){
+                    if (bestReward === 6) {
                       color = 'black';
-                    } else if (bestReward === 5){
+                    } else if (bestReward === 5) {
                       color = '#383838';
-                    } else if (bestReward === 4){
+                    } else if (bestReward === 4) {
                       color = '#686868';
-                    } else if (bestReward === 3){
+                    } else if (bestReward === 3) {
                       color = '#888888';
-                    } else if (bestReward === 2){
+                    } else if (bestReward === 2) {
                       color = '#A9A9A9';
-                    } else if (bestReward === 1){
+                    } else if (bestReward === 1) {
                       color = '#E8E8E8';
                     }
                   }
                   return color;
                 }
                 return <MapView.Marker
-                      key= {idx}
-                      stopPropagation={true}
-                      coordinate={singleMarkerProps.coordinate}
-                      identifier={singleMarkerProps.identifier}
-                      onSelect={() => this.setSelectedIdx(idx) }
-                      pinColor={ getColor(idx) }
-                      title={singleMarkerProps.title}
-                    />
+                  key={idx}
+                  stopPropagation={true}
+                  coordinate={singleMarkerProps.coordinate}
+                  identifier={singleMarkerProps.identifier}
+                  onSelect={() => this.setSelectedIdx(idx)}
+                  pinColor={getColor(idx)}
+                  title={singleMarkerProps.title}
+                />
               })
             }
-        </MapView>}
-    </View>
-    
+          </MapView>}
+      </View>
+
     )
   }
 
 }
 
-const mapStateToProps = ({placesOfInterest, ccHash }) => ({ placesOfInterest, ccHash });
+const mapStateToProps = ({ placesOfInterest, ccHash }) => ({ placesOfInterest, ccHash });
 const mapDispatchToProps = { setSelectedPOI };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapViewContainer);
