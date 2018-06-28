@@ -14,6 +14,8 @@ const SIGNIN = PREFIX + '/signin';
 const GETMOCKPOIS = PREFIX + '/placesOfInterest';
 const GOOGLEMAPS_NEARBY_SEARCH_JSON = MAPS_API_PREFIX + '/place/nearbysearch/json';
 const GOOGLEMAPS_NEARBY_SEARCH_XML = MAPS_API_PREFIX + '/place/nearbysearch/xml';
+const GETPOISCASHMAPBACKEND = '/mapsSearchNearby';
+const GETPOISCASHMAPBACKENDBYCC = '/mapsSearchByCC';
 /* API KEYS */
 const GOOGLEMAPS_API_KEY = 'AIzaSyDmmv0_ef7i09ZhGHnZlXAiqFysl9RbGQg';
 
@@ -25,7 +27,7 @@ const GOOGLEMAPS_API_KEY = 'AIzaSyDmmv0_ef7i09ZhGHnZlXAiqFysl9RbGQg';
 const REST = {
   ENDPNTS: {
     /* This `DEFAULT` property is what you will be swapping in most cases */
-    DEFAULT: EMPTYSTR,
+    DEFAULT: LOCALEXPRESS,
 
     LOCALEXPRESS: LOCALEXPRESS,
     EMPTYSTR: EMPTYSTR,
@@ -36,6 +38,7 @@ const REST = {
 
     GETMOCKPOIS: GETMOCKPOIS,
     GETGOOGLEMAPSPOIS: GOOGLEMAPS_NEARBY_SEARCH_JSON,
+    GETPOISCASHMAPBACKEND: GETPOISCASHMAPBACKEND,
   },
   APIKEY: {
     GOOGLEMAPS: GOOGLEMAPS_API_KEY

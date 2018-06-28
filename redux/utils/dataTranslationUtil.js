@@ -3,10 +3,10 @@ export const handleGoogleMapsAPIResponse = (res) => {
   // console.log('handling response')
   // console.log(res)
   if (res.data.error_message) {
-    console.error(res.data.error_message);
+    console.error('error message: ')
     throw new Error(res.data.error_message);
   } else if (!(res.data.status === 'ZERO_RESULTS' || res.data.status === 'OK')){
-    console.error(res.data.status);
+    console.error('problematic status: ')
     throw new Error(res.data.status);
   }
   return res;
