@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
   },
 
   centerBtnImage: {
-    width: 30,
-    height: 40,
+    width: 50,
+    height: 50,
     resizeMode: 'stretch'
   },
 

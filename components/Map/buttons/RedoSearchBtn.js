@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Dimensions } from 'react-native';
+import { Text, View, Dimensions, Image } from 'react-native';
 
 import styles from './styles';
 import btnFactory from '../../shared/hoc/btnFactory';
@@ -9,11 +9,8 @@ import withAnimationFade from '../../shared/hoc/withAnimationFade';
 const deviceHeight = Dimensions.get('window').height;
 
 const RedoSearchBtnView = () =>
-  <View style={styles.redoSearchBtnContainer}>
-    <Text style={styles.redoSearchBtnText}>
-      Redo Search
-    </Text>
-  </View>
+    <Image source={require('./RedoButton.png')} style={styles.centerBtnImage} />
+
 
 const RedoSearchBtnUnanimated = btnFactory(RedoSearchBtnView);
 const RedoSearchBtnFadeAnimated = withAnimationFade(200)(RedoSearchBtnUnanimated);

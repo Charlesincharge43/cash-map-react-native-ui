@@ -53,6 +53,9 @@ const DrawerStack = createDrawerNavigator(
     Settings: createStackNavigator({
       SettingsMain: { screen: Settings, navigationOptions: drawerScreenNavigationOptions }
     }),
+    LogOut: createStackNavigator({
+      LogoutMain: { screen: Help, navigationOptions: drawerScreenNavigationOptions }
+    }),
   },
   {
     contentComponent: SideMenu,
