@@ -17,18 +17,19 @@ const styles = StyleSheet.create({
   },
   topLeft: {
     position: 'absolute',
-    top: 60,
-    left: 30,
+    top: 55,
+    left: 25,
     zIndex: 1,
   },
   bottomRight: {
     position: 'absolute',
-    bottom: 200,
+    bottom: 170,
     right: 25,
   },
-  horizontalCenter: {
+  bottomRightLower: {
     position: 'absolute',
-    alignSelf: 'center',
+    bottom: 20,
+    right: 25,
   },
 })
 
