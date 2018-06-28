@@ -190,8 +190,7 @@ class StatefulMap extends Component {
     return (
       <View style={styles.mapContainer}>
         <Hamburger style={styles.topLeft} onPress={openDrawer} />
-        {/* <NearbySearch /> */}
-
+        <NearbySearch />
         <MapViewContainer
           trackCurrentPosition={this.state.trackCurrentPosition}
           region={this.getCurrentRegion()}
@@ -203,7 +202,7 @@ class StatefulMap extends Component {
 
         <CenterBtn style={styles.bottomRight} onPress={this.centerMapToCurrentPosition} />
 
-        <RedoSearchBtn isHidden={this.state.isRedoSearchHidden || !this.state.isPOIDetailsHidden } style={styles.horizontalCenter} onPress={this.loadPOIs}/>
+        <RedoSearchBtn isHidden={this.state.isRedoSearchHidden || !this.state.isPOIDetailsHidden } style={styles.bottomRightLower} onPress={this.loadPOIs}/>
 
         <POIDetails isHidden={this.state.isPOIDetailsHidden } selectedPOIDetailIdx={this.state.selectedPOIDetailIdx} />
 
