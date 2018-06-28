@@ -29,12 +29,18 @@ const styles = StyleSheet.create({
   },
   infoTextBigDivider: {
     fontSize: 17,
-    paddingLeft: 2,
-    paddingRight: 2,
+    paddingLeft: 3,
+    paddingRight: 3,
   },
   infoTextSmall: {
     color: 'grey',
     fontSize: 15,
+  },
+  infoTextSmallDivider: {
+    color: 'grey',
+    fontSize: 15,
+    paddingLeft: 2,
+    paddingRight: 2,
   },
 })
 

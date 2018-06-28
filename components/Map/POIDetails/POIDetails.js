@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Dimensions, StyleSheet, Image } from 'react-native';
+import { connect } from 'react-redux';
 
 
 import styles from './styles';
@@ -8,21 +9,23 @@ import withAnimationVerticalSlide from '../../shared/hoc/withAnimationVerticalSl
 const deviceHeight = Dimensions.get('window').height;
 
 const POIDetailsView = (props) =>
+//props.placesOfInterest = places on map
+//click on marker - get selected index selectedPOIDetailIdx
 <View style={styles.container}>
   <Text style={styles.placeHeading}>Starbucks</Text>
   <View style={{flexDirection: 'row'}}>
     <View style={{flexDirection: 'column'}}>
       <View style={{flexDirection: 'row'}}>
-        <Text style={styles.infoTextBig}>4.3</Text>
+        <Text style={styles.infoTextBig}>Coffe Shop</Text>
         <Text style={styles.infoTextBigDivider}>·</Text>
-        <Text style={styles.infoTextBig}>4.3</Text>
+        <Text style={styles.infoTextBig}>0.2 mi</Text>
         <Text style={styles.infoTextBigDivider}>·</Text>
-        <Text style={styles.infoTextBig}>4.3</Text>
+        <Text style={styles.infoTextBig}>10AM - 9PM</Text>
       </View>
       <View style={{flexDirection: 'row'}}>
-        <Text style={styles.infoTextSmall}>4.3</Text>
-        <Text style={styles.infoTextSmall}>4.3</Text>
-        <Text style={styles.infoTextSmall}>4.3</Text>
+        <Text style={styles.infoTextSmall}>4.3 ★★★★</Text>
+        <Text style={styles.infoTextSmallDivider}>·</Text>
+        <Text style={styles.infoTextSmall}>$$</Text>
       </View>
     </View>
   </View>
@@ -36,5 +39,6 @@ const POIDetailsView = (props) =>
 const POIDetailsAnimated = withAnimationVerticalSlide(deviceHeight, deviceHeight - StyleSheet.flatten(styles.container).height, 350)(POIDetailsView);
 
 const POIDetailsComposed = (props) => <POIDetailsAnimated isAtPositionOne={props.isHidden} {...props} />
+const mapStateToProps = ({ placesOfInterest, ccHash }) => ({ placesOfInterest, ccHash });
 
-export default POIDetailsComposed;
+export default connect(mapStateToProps)(POIDetailsComposed);
