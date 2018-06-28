@@ -9,6 +9,8 @@ import withAnimationVerticalSlide from '../../shared/hoc/withAnimationVerticalSl
 const deviceHeight = Dimensions.get('window').height;
 
 const POIDetailsView = (props) => {
+  console.log('hidden in component?')
+  console.log(props.isHidden)
   let placeDetail;
   if(props.selectedPOIDetailIdx){
     placeDetail = props.placesOfInterest[props.selectedPOIDetailIdx]
