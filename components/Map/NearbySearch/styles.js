@@ -4,11 +4,11 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   search: {
     zIndex: 1,
-    width: 125,
-    height: 50,
-    left: 120,
-    top: 50,
-    flexDirection: 'row'
+    width: 500,
+    height: 25,
+    left: 70,
+    top: 46,
+    flexDirection: 'row',
   },
   textInput: {
     fontSize: 20, 
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   searchBtn: {
     width: 40,
     height: 40,
+    top: 12,
     resizeMode: 'stretch'
   }
 })

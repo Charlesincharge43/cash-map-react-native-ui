@@ -16,9 +16,20 @@ const styles = StyleSheet.create({
   },
 
   centerBtnImage: {
-    width: 50,
-    height: 50,
+    width: 80,
+    height: 80,
     resizeMode: 'stretch'
+  },
+
+  redoBtnImage: {
+    width: 80,
+    height: 100,
+    resizeMode: 'stretch'
+  },
+
+  hamburgerBtnImage: {
+    width: 40,
+    height: 40,
   },
 
   redoSearchBtnContainer: {

@@ -9,7 +9,7 @@ import withAnimationFade from '../../shared/hoc/withAnimationFade';
 const deviceHeight = Dimensions.get('window').height;
 
 const RedoSearchBtnView = () =>
-    <Image source={require('./RedoButton.png')} style={styles.centerBtnImage} />
+    <Image source={require('./RedoButton.png')} style={styles.redoBtnImage} />
 
 
 const RedoSearchBtnUnanimated = btnFactory(RedoSearchBtnView);
