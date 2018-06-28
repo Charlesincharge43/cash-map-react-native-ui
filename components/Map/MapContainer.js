@@ -39,6 +39,10 @@ class StatefulMap extends Component {
       isRedoSearchHidden: true,
       isPOIDetailsHidden: true,
       isLoading: false,
+
+      /* temporary state... this should all be on redux eventually.  Hardcoded for now */
+      userCreditCards: ['CHASE_FREEDOM', 'BANK_OF_AMERICA_CASH_REWARDS'],
+      userSelectedCreditCards: ['CHASE_FREEDOM', 'BANK_OF_AMERICA_CASH_REWARDS'],
     };
 
     this.onRegionChange = this.onRegionChange.bind(this);

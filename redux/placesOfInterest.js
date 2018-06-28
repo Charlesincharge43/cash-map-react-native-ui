@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 import REST from './constants/restConstants';
 
 /* -----------  ACTION TYPES ----------- */
@@ -46,6 +47,9 @@ export const clearPOIs = () => dispatch => dispatch(clearPlacesOfInterest());
 // // google maps add/set POIs
 export const addPOIs = addPOIsGoogleMapsMaxResults;
 export const setPOIs = setPOIsGoogleMapsMaxResults;
+export const setPOIsByCards = (queryParams) =>
+  dispatch =>
+  dispatch(fetchPOIsByCards(queryParams, setPlacesOfInterest));
 
 // // cash map backend add/set POIs
 // export const addPOIs = (queryParams) => dispatch => dispatch(fetchPOIsThenCustomDispatchCMbackend(queryParams, addPlacesOfInterest));
@@ -134,6 +138,14 @@ function fetchPOIsThenCustomDispatchGoogleMaps(queryParams, actionCreator) {
         // just .then off this dispatch and the token will be the resolved value that gets passed to the success cb
         // see `fetchPOIsGoogleMapsMoreResults` for how to do this
       });
+  }
+}
+
+function fetchPOIsByCards(queryParams, actionCreator){
+  return dispatch => {
+    queryParams.cards.map(card => {
+
+    })
   }
 }
 
