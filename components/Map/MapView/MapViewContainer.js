@@ -26,6 +26,8 @@ class MapViewContainer extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps){
+    // console.log('next props length : ',  nextProps.placesOfInterest.length)
+    // console.log(nextProps)
     if (nextProps.placesOfInterest.length === 0) {
       return {
         selectedIdx : null,
@@ -60,9 +62,9 @@ class MapViewContainer extends React.Component {
       selectedIdx: idx
     })
     if (idx !== null){
-      this.props.showPOIDetails();
+      this.props.showPOIDetails(idx);
     } else {
-      this.props.hidePOIDetails();
+      this.props.hidePOIDetails(idx);
     }
     /* do something here - fetch POI detail etc. */
     // this.props.fetchPOIDetail(e.nativeEvent.coordinate);
@@ -100,16 +102,20 @@ class MapViewContainer extends React.Component {
             {
               /* Note.. MapView Markers MUST be DIRECT children of MapView.
               Trust me you will suffer mightily if you do not follow this rule!! */
-              this.props.placesOfInterest.map((singleMarkerProps, idx) =>
-                <MapView.Marker
+              this.props.placesOfInterest.map((singleMarkerProps, idx) => {
+                const getColor = (idx) => {
+                  return idx === this.state.selectedIdx ? 'yellow' : 'black';
+                }
+                return <MapView.Marker
                       key= {idx}
                       stopPropagation={true}
                       coordinate={singleMarkerProps.coordinate}
                       identifier={singleMarkerProps.identifier}
                       onSelect={() => this.setSelectedIdx(idx) }
-                      pinColor={ idx === this.state.selectedIdx ? 'yellow' : 'black'}
+                      pinColor={ getColor(idx) }
                       title={singleMarkerProps.title}
-                    />)
+                    />
+              })
             }
         </MapView>}
     </View>
@@ -119,7 +125,7 @@ class MapViewContainer extends React.Component {
 
 }
 
-const mapStateToProps = ({placesOfInterest}) => ({ placesOfInterest });
+const mapStateToProps = ({placesOfInterest, ccHash }) => ({ placesOfInterest, ccHash });
 const mapDispatchToProps = { setSelectedPOI };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapViewContainer);

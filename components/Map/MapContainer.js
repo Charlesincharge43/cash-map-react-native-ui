@@ -12,7 +12,9 @@ import POIDetails from './POIDetails/POIDetails';
 import withGeolocation from '../Map/hoc/withGeolocation';
 import MapViewContainer from './MapView/MapViewContainer';
 
-import { setPOIs, addPOIs, clearPOIs } from '../../redux/placesOfInterest';
+import { invertCCHash, allCreditCards } from '../../cashMapTempStore/cashmapStore';
+import { setPOIs, addPOIs, clearPOIs, setPOIsByTypes } from '../../redux/placesOfInterest';
+import { setCategoryHash } from '../../redux/ccHash';
 
 const ALERT = 'Warning';
 const ERROR_MESSAGE = 'Unable to fetch places of interest from data source.  Please try again later.';
@@ -39,6 +41,11 @@ class StatefulMap extends Component {
       isRedoSearchHidden: true,
       isPOIDetailsHidden: true,
       isLoading: false,
+      selectedPOIDetailIdx: null,
+
+      /* temporary state... this should all be on redux eventually.  Hardcoded for now */
+      userCreditCards: ['CHASE_FREEDOM', 'BANK_OF_AMERICA_CASH_REWARDS', 'DISCOVER_IT_CASH_BACK'],
+      userSelectedCreditCards: ['CHASE_FREEDOM', 'BANK_OF_AMERICA_CASH_REWARDS', 'DISCOVER_IT_CASH_BACK'],
     };
 
     this.onRegionChange = this.onRegionChange.bind(this);
@@ -52,8 +59,18 @@ class StatefulMap extends Component {
 
   loadPOIs() {
     this.setState({isLoading: true})
+    const specificCCHash = {};
+    this.state.userSelectedCreditCards.forEach(card => {
+      specificCCHash[card] = allCreditCards[card];
+    })
+    const categoryHash = invertCCHash(specificCCHash);
+    delete categoryHash.default; // FOR NOW WE HAVE NOT FIGURED OUT THE DEFAULT THING
+    this.props.setCategoryHash(categoryHash); // set category hash to global
+    const types = Object.keys(categoryHash);
+    // console.log(types);
     const regionParams = this.state.trackCurrentPosition ? this.getCurrentRegion() : this.getSelectedRegion();
-    return this.props.setPOIs(regionParams)
+    const queryParams = Object.assign(regionParams, { types });
+    return this.props.setPOIsByTypes(queryParams)
       .then(() => this.setState({isRedoSearchHidden: true, isLoading: false }))
       .catch((err) => {
         console.error(err)
@@ -65,15 +82,17 @@ class StatefulMap extends Component {
       });
   }
 
-  showPOIDetails() {
+  showPOIDetails(selectedPOIDetailIdx) {
     this.setState({
       isPOIDetailsHidden: false,
+      selectedPOIDetailIdx: selectedPOIDetailIdx,
     })
   }
 
   hidePOIDetails() {
     this.setState({
-      isPOIDetailsHidden: true
+      isPOIDetailsHidden: true,
+      selectedPOIDetailIdx: null,
     })
   }
 
@@ -170,7 +189,7 @@ class StatefulMap extends Component {
 
         <RedoSearchBtn isHidden={this.state.isRedoSearchHidden || !this.state.isPOIDetailsHidden } style={styles.horizontalCenter} onPress={this.loadPOIs}/>
 
-        <POIDetails isHidden={this.state.isPOIDetailsHidden } />
+        <POIDetails isHidden={this.state.isPOIDetailsHidden } selectedPOIDetailIdx={this.state.selectedPOIDetailIdx} />
 
         <ActivityIndicator style={styles.center} size='large' color='#0000ff' animating={this.state.isLoading}/>
       </View>
@@ -179,6 +198,6 @@ class StatefulMap extends Component {
 }
 
 const mapStateToProps = ({ auth }) => ({ auth });
-const mapDispatchToProps = { setPOIs, addPOIs, clearPOIs };
+const mapDispatchToProps = { setPOIs, addPOIs, clearPOIs, setPOIsByTypes, setCategoryHash };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withGeolocation(StatefulMap));

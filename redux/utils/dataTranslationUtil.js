@@ -1,12 +1,12 @@
 
 export const handleGoogleMapsAPIResponse = (res) => {
-  // console.log('handling response')
+  console.log('handling response')
   // console.log(res)
   if (res.data.error_message) {
-    console.error(res.data.error_message);
+    console.error('error message: ')
     throw new Error(res.data.error_message);
   } else if (!(res.data.status === 'ZERO_RESULTS' || res.data.status === 'OK')){
-    console.error(res.data.status);
+    console.error('problematic status: ')
     throw new Error(res.data.status);
   }
   return res;
@@ -15,6 +15,9 @@ export const handleGoogleMapsAPIResponse = (res) => {
 export const translateGoogleMapsNearbySearchResponse = (res) => {
   // console.log('translating')
   // console.log(res);
+  
+  // console.log(res.data)
+  // console.log(res.data.results)
   const pois = res.data.results.map(place => {
     return {
       coordinate: {
@@ -23,6 +26,7 @@ export const translateGoogleMapsNearbySearchResponse = (res) => {
       },
       identifier: place.id,
       title: place.name,
+      additionalDetails: place
     }
   })
   const next_page_token = res.data.next_page_token;
@@ -40,13 +44,16 @@ export const translateMockPOIsResponse = (res) =>
 
 // for google maps
 export const createConvertedQueryParams = (queryParams, key) => {
-  return {
+  const converted = {
     location: `${queryParams.latitude},${queryParams.longitude}`,
     radius: queryParams.latitudeDelta * 40008000 / 720,
     type: queryParams.type,
-    pagetoken: queryParams.pagetoken,
     key,
   }
+  if (queryParams.pagetoken) {
+    converted.pagetoken = queryParams.pagetoken
+  }
+  return converted;
 }
 
 /* Reminder that if you are going to render these markers on the map, you should set your simulator's location

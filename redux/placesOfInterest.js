@@ -1,6 +1,8 @@
 import axios from 'axios';
 
+
 import REST from './constants/restConstants';
+import { invertCCHash, allCreditCards } from '../cashMapTempStore/cashmapStore';
 
 /* -----------  ACTION TYPES ----------- */
 
@@ -36,16 +38,23 @@ export const clearPOIs = () => dispatch => dispatch(clearPlacesOfInterest());
 /* customize addPOIs/ setPOIs to whichever thunk below is most suitable for your purposes */
 
 // // mock add/set POIs
-export const addPOIs = (queryParams) => dispatch => dispatch(fetchPOIsThenCustomDispatchMock(queryParams, addPlacesOfInterest));
-export const setPOIs = (queryParams) => dispatch => dispatch(fetchPOIsThenCustomDispatchMock(queryParams, setPlacesOfInterest));
+// export const addPOIs = (queryParams) => dispatch => dispatch(fetchPOIsThenCustomDispatchMock(queryParams, addPlacesOfInterest));
+// export const setPOIs = (queryParams) => dispatch => dispatch(fetchPOIsThenCustomDispatchMock(queryParams, setPlacesOfInterest));
 
 // // dummy add/set POIs
 // export const addPOIs = (queryParams) => dispatch => dispatch(fetchPOIsThenCustomDispatchDummy(queryParams, addPlacesOfInterest));
 // export const setPOIs = (queryParams) => dispatch => dispatch(fetchPOIsThenCustomDispatchDummy(queryParams, setPlacesOfInterest));
 
 // // google maps add/set POIs
-// export const addPOIs = addPOIsGoogleMapsMaxResults;
-// export const setPOIs = setPOIsGoogleMapsMaxResults;
+export const addPOIs = addPOIsGoogleMapsMaxResults;
+export const setPOIs = setPOIsGoogleMapsMaxResults;
+export const setPOIsByTypes = (queryParams) =>
+  dispatch =>
+  dispatch(fetchPOIsByTypes(queryParams, addPlacesOfInterest));
+
+// // cash map backend add/set POIs
+// export const addPOIs = (queryParams) => dispatch => dispatch(fetchPOIsThenCustomDispatchCMbackend(queryParams, addPlacesOfInterest));
+// export const setPOIs = (queryParams) => dispatch => dispatch(fetchPOIsThenCustomDispatchCMbackend(queryParams, setPlacesOfInterest));
 
 /* SPECIFIC POI THUNKS BELOW */
 
@@ -55,7 +64,7 @@ export const setPOIs = (queryParams) => dispatch => dispatch(fetchPOIsThenCustom
 import { translateMockPOIsResponse } from './utils/dataTranslationUtil';
 function fetchPOIsThenCustomDispatchMock(queryParams, actionCreator) {
   return dispatch => {
-    return axios.get(REST.ENDPNTS.DEFAULT + REST.RES.GETMOCKPOIS, { params: queryParams })
+    return axios.get(REST.ENDPNTS.EMPTYSTR + REST.RES.GETMOCKPOIS, { params: queryParams })
       .then(translateMockPOIsResponse)
       .then(pois => dispatch(actionCreator(pois)));
   }
@@ -124,6 +133,7 @@ function fetchPOIsThenCustomDispatchGoogleMaps(queryParams, actionCreator) {
       .then(handleGoogleMapsAPIResponse)
       .then(translateGoogleMapsNearbySearchResponse)
       .then(translated => {
+        // console.log(translated)
         dispatch(actionCreator(translated.pois));
         return translated.next_page_token;
         // ^ This will give you the option to query the next 2 pages of google maps nearby search results
@@ -139,4 +149,58 @@ function promisifiedTimeOut(ms){
       resolve();
     }, ms);
   })
+}
+
+function fetchPOIsByTypes(queryParams, actionCreator){
+  return dispatch => {
+
+    dispatch(clearPOIs);
+
+    return Promise.all(
+      queryParams.types.map((type, idx) => {
+
+      return promisifiedTimeOut(idx * 500)
+        .then(() => {
+          // console.log('type: ', type)
+          const specificTypeQuery = Object.assign(queryParams, { type });
+          // console.log(specificTypeQuery)
+          return dispatch(fetchPOIsThenCustomDispatchGoogleMaps(specificTypeQuery, actionCreator))
+        })
+        
+    }))
+    .catch(err => console.error(err))
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Cash map backend thunk */
+
+// import { handleGoogleMapsAPIResponse, translateGoogleMapsNearbySearchResponse, createConvertedQueryParams } from './utils/dataTranslationUtil';
+function fetchPOIsThenCustomDispatchCMbackend(queryParams, actionCreator) {
+  return dispatch => {
+    // Feel free to add a "type" property to queryParams below for more specific nearby searches (e.g., type : 'restaurant')
+    const convertedQueryParams = createConvertedQueryParams(queryParams, REST.APIKEY.GOOGLEMAPS);
+    // console.log('convertedQueryParams: ');
+    // console.log(convertedQueryParams);
+    console.log(REST.ENDPNTS.DEFAULT + REST.RES.GETPOISCASHMAPBACKEND);
+    return axios.get(REST.ENDPNTS.DEFAULT + REST.RES.GETPOISCASHMAPBACKEND, { params: convertedQueryParams })
+      .then(handleGoogleMapsAPIResponse)
+      .then(translateGoogleMapsNearbySearchResponse)
+      .then(translated => {
+        dispatch(actionCreator(translated.pois));
+        return translated.next_page_token;
+        // ^ This will give you the option to query the next 2 pages of google maps nearby search results
+        // just .then off this dispatch and the token will be the resolved value that gets passed to the success cb
+        // see `fetchPOIsGoogleMapsMoreResults` for how to do this
+      });
+  }
 }
