@@ -6,6 +6,7 @@ import styles from './styles';
 import Hamburger from './buttons/Hamburger';
 import CenterBtn from './buttons/CenterBtn';
 import RedoSearchBtn from './buttons/RedoSearchBtn';
+import NearbySearch from './NearbySearch/NearbySearch';
 
 import POIDetails from './POIDetails/POIDetails';
 
@@ -189,6 +190,7 @@ class StatefulMap extends Component {
     return (
       <View style={styles.mapContainer}>
         <Hamburger style={styles.topLeft} onPress={openDrawer} />
+        <NearbySearch />
 
         <MapViewContainer
           trackCurrentPosition={this.state.trackCurrentPosition}
