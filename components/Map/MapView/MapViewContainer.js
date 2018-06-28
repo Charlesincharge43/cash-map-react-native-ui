@@ -117,26 +117,27 @@ class MapViewContainer extends React.Component {
                 const categoryKey = singleMarkerProps.category;
                 const categoryObj = ccHash[categoryKey];
                 const bestReward = categoryObj.cards[0].reward;
-                const getColor = (idx) => {
-                  let color;
-                  if (idx === this.state.selectedIdx) {
-                    color = 'yellow';
+                const getImgSrc = (idx) => {
+                  let imgSrc;
+                  // if (idx === this.state.selectedIdx) {
+                  if (1 === 2) { // temporary
+                    imgSrc = 'blah';
                   } else {
                     if (bestReward === 6) {
-                      color = 'black';
+                      imgSrc = require('./img/Pin_High_Dollar.png');
                     } else if (bestReward === 5) {
-                      color = '#383838';
+                      imgSrc = require('./img/Pin_High_Dollar.png');
                     } else if (bestReward === 4) {
-                      color = '#686868';
+                      imgSrc = require('./img/Pin_Medium_Dollar.png');
                     } else if (bestReward === 3) {
-                      color = '#888888';
+                      imgSrc = require('./img/Pin_Low_Dollar.png');
                     } else if (bestReward === 2) {
-                      color = '#A9A9A9';
+                      imgSrc = require('./img/Pin_Low_Dollar.png');
                     } else if (bestReward === 1) {
-                      color = '#E8E8E8';
+                      imgSrc = require('./img/Pin_Low_Dollar.png');
                     }
                   }
-                  return color;
+                  return imgSrc;
                 }
                 return <MapView.Marker
                   key={idx}
@@ -144,7 +145,7 @@ class MapViewContainer extends React.Component {
                   coordinate={singleMarkerProps.coordinate}
                   identifier={singleMarkerProps.identifier}
                   onSelect={() => this.setSelectedIdx(idx)}
-                  pinColor={getColor(idx)}
+                  image={getImgSrc(idx)}
                   title={singleMarkerProps.title}
                 />
               })
