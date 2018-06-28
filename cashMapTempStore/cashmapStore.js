@@ -86,4 +86,6 @@ export const invertCCHash = (ccHash) => {
   return newCategoriesHash;
 }
 
-invertCCHash(allCreditCards)
+export const retrieveCategoriesHash = () => {
+  return invertCCHash(allCreditCards);
+}
