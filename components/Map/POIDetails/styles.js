@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    height: 250,
+    height: 200,
     padding: 14,
   },
   cardLogo: {
@@ -17,10 +17,10 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   percent: {
-    color: 'orange',
-    fontSize: 20,
+    color: 'teal',
+    fontSize: 16,
     fontWeight: 'bold',
-    paddingBottom: 1,
+    fontStyle: 'italic',
   },
   placeImage: {
     width: 100,
