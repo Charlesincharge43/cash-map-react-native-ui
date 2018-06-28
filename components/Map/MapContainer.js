@@ -12,7 +12,8 @@ import POIDetails from './POIDetails/POIDetails';
 import withGeolocation from '../Map/hoc/withGeolocation';
 import MapViewContainer from './MapView/MapViewContainer';
 
-import { setPOIs, addPOIs, clearPOIs } from '../../redux/placesOfInterest';
+import { invertCCHash, allCreditCards } from '../../cashMapTempStore/cashmapStore';
+import { setPOIs, addPOIs, clearPOIs, setPOIsByTypes } from '../../redux/placesOfInterest';
 
 const ALERT = 'Warning';
 const ERROR_MESSAGE = 'Unable to fetch places of interest from data source.  Please try again later.';
@@ -41,8 +42,8 @@ class StatefulMap extends Component {
       isLoading: false,
 
       /* temporary state... this should all be on redux eventually.  Hardcoded for now */
-      userCreditCards: ['CHASE_FREEDOM', 'BANK_OF_AMERICA_CASH_REWARDS'],
-      userSelectedCreditCards: ['CHASE_FREEDOM', 'BANK_OF_AMERICA_CASH_REWARDS'],
+      userCreditCards: ['CHASE_FREEDOM', 'BANK_OF_AMERICA_CASH_REWARDS', 'DISCOVER_IT_CASH_BACK'],
+      userSelectedCreditCards: ['CHASE_FREEDOM', 'BANK_OF_AMERICA_CASH_REWARDS', 'DISCOVER_IT_CASH_BACK'],
     };
 
     this.onRegionChange = this.onRegionChange.bind(this);
@@ -56,8 +57,17 @@ class StatefulMap extends Component {
 
   loadPOIs() {
     this.setState({isLoading: true})
+    const specificCCHash = {};
+    this.state.userSelectedCreditCards.forEach(card => {
+      specificCCHash[card] = allCreditCards[card];
+    })
+    const categoryHash = invertCCHash(specificCCHash);
+    delete categoryHash.default; // FOR NOW WE HAVE NOT FIGURED OUT THE DEFAULT THING
+    const types = Object.keys(categoryHash);
+    // console.log(types);
     const regionParams = this.state.trackCurrentPosition ? this.getCurrentRegion() : this.getSelectedRegion();
-    return this.props.setPOIs(regionParams)
+    const queryParams = Object.assign(regionParams, { types });
+    return this.props.setPOIsByTypes(queryParams)
       .then(() => this.setState({isRedoSearchHidden: true, isLoading: false }))
       .catch((err) => {
         console.error(err)
@@ -183,6 +193,6 @@ class StatefulMap extends Component {
 }
 
 const mapStateToProps = ({ auth }) => ({ auth });
-const mapDispatchToProps = { setPOIs, addPOIs, clearPOIs };
+const mapDispatchToProps = { setPOIs, addPOIs, clearPOIs, setPOIsByTypes };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withGeolocation(StatefulMap));

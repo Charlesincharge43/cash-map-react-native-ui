@@ -26,6 +26,7 @@ class MapViewContainer extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps){
+    // console.log('next props length : ',  nextProps.placesOfInterest.length)
     if (nextProps.placesOfInterest.length === 0) {
       return {
         selectedIdx : null,

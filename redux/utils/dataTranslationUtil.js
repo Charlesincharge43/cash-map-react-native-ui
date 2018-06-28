@@ -1,6 +1,6 @@
 
 export const handleGoogleMapsAPIResponse = (res) => {
-  // console.log('handling response')
+  console.log('handling response')
   // console.log(res)
   if (res.data.error_message) {
     console.error('error message: ')
@@ -15,7 +15,11 @@ export const handleGoogleMapsAPIResponse = (res) => {
 export const translateGoogleMapsNearbySearchResponse = (res) => {
   // console.log('translating')
   // console.log(res);
+  
+  // console.log(res.data)
+  // console.log(res.data.results)
   const pois = res.data.results.map(place => {
+    // console.log(place)
     return {
       coordinate: {
         latitude: place.geometry.location.lat,
@@ -40,13 +44,16 @@ export const translateMockPOIsResponse = (res) =>
 
 // for google maps
 export const createConvertedQueryParams = (queryParams, key) => {
-  return {
+  const converted = {
     location: `${queryParams.latitude},${queryParams.longitude}`,
     radius: queryParams.latitudeDelta * 40008000 / 720,
     type: queryParams.type,
-    pagetoken: queryParams.pagetoken,
     key,
   }
+  if (queryParams.pagetoken) {
+    converted.pagetoken = queryParams.pagetoken
+  }
+  return converted;
 }
 
 /* Reminder that if you are going to render these markers on the map, you should set your simulator's location

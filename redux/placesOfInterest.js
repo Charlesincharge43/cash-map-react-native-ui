@@ -2,6 +2,7 @@ import axios from 'axios';
 
 
 import REST from './constants/restConstants';
+import { invertCCHash, allCreditCards } from '../cashMapTempStore/cashmapStore';
 
 /* -----------  ACTION TYPES ----------- */
 
@@ -47,9 +48,9 @@ export const clearPOIs = () => dispatch => dispatch(clearPlacesOfInterest());
 // // google maps add/set POIs
 export const addPOIs = addPOIsGoogleMapsMaxResults;
 export const setPOIs = setPOIsGoogleMapsMaxResults;
-export const setPOIsByCards = (queryParams) =>
+export const setPOIsByTypes = (queryParams) =>
   dispatch =>
-  dispatch(fetchPOIsByCards(queryParams, setPlacesOfInterest));
+  dispatch(fetchPOIsByTypes(queryParams, addPlacesOfInterest));
 
 // // cash map backend add/set POIs
 // export const addPOIs = (queryParams) => dispatch => dispatch(fetchPOIsThenCustomDispatchCMbackend(queryParams, addPlacesOfInterest));
@@ -132,20 +133,13 @@ function fetchPOIsThenCustomDispatchGoogleMaps(queryParams, actionCreator) {
       .then(handleGoogleMapsAPIResponse)
       .then(translateGoogleMapsNearbySearchResponse)
       .then(translated => {
+        // console.log(translated)
         dispatch(actionCreator(translated.pois));
         return translated.next_page_token;
         // ^ This will give you the option to query the next 2 pages of google maps nearby search results
         // just .then off this dispatch and the token will be the resolved value that gets passed to the success cb
         // see `fetchPOIsGoogleMapsMoreResults` for how to do this
       });
-  }
-}
-
-function fetchPOIsByCards(queryParams, actionCreator){
-  return dispatch => {
-    queryParams.cards.map(card => {
-
-    })
   }
 }
 
@@ -156,6 +150,35 @@ function promisifiedTimeOut(ms){
     }, ms);
   })
 }
+
+function fetchPOIsByTypes(queryParams, actionCreator){
+  return dispatch => {
+
+    dispatch(clearPOIs);
+
+    return Promise.all(
+      queryParams.types.map((type, idx) => {
+
+      return promisifiedTimeOut(idx * 500)
+        .then(() => {
+          // console.log('type: ', type)
+          const specificTypeQuery = Object.assign(queryParams, { type });
+          // console.log(specificTypeQuery)
+          return dispatch(fetchPOIsThenCustomDispatchGoogleMaps(specificTypeQuery, actionCreator))
+        })
+        
+    }))
+    .catch(err => console.error(err))
+  }
+}
+
+
+
+
+
+
+
+
 
 
 
