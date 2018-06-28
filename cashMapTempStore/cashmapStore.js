@@ -30,7 +30,7 @@ export const allCreditCards = {
 //   restaurant: {
 //     DISCOVER_IT_CASH_BACK: 5,
 //     BARCLAY_UBER_VISA_CARD: 1,
-//     cardsSorted: [
+//     cards: [
 //       {
 //         card: 'DISCOVER_IT_CASH_BACK',
 //         reward: 5
@@ -43,7 +43,7 @@ export const allCreditCards = {
 //   lodging: {
 //     US_BANK_CASH_PLUS: 3,
 //     DISCOVER_IT_CASH_BACK: 4,
-//     cardsSorted: [
+//     cards: [
 //       {
 //         card: 'DISCOVER_IT_CASH_BACK',
 //         reward: 4

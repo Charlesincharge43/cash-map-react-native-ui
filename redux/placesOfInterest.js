@@ -131,7 +131,7 @@ function fetchPOIsThenCustomDispatchGoogleMaps(queryParams, actionCreator) {
     // console.log(REST.ENDPNTS.GOOGLEMAPSAPI + REST.RES.GETGOOGLEMAPSPOIS)
     return axios.get(REST.ENDPNTS.GOOGLEMAPSAPI + REST.RES.GETGOOGLEMAPSPOIS, { params: convertedQueryParams })
       .then(handleGoogleMapsAPIResponse)
-      .then(translateGoogleMapsNearbySearchResponse)
+      .then(res => translateGoogleMapsNearbySearchResponse(res, queryParams.type))
       .then(translated => {
         // console.log(translated)
         dispatch(actionCreator(translated.pois));
