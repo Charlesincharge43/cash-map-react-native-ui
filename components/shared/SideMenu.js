@@ -1,6 +1,6 @@
 import React from 'react';
 import {DrawerItems} from 'react-navigation';
-import {Text, View} from 'react-native';
+import {Text, View, Image} from 'react-native';
 
 import styles from './styles'
 

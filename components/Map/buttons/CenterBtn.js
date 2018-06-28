@@ -5,7 +5,7 @@ import styles from './styles';
 import btnFactory from '../../shared/hoc/btnFactory';
 
 const CenterBtnView = () =>
-  <Image source={require('./img/my_location_icon.png')} style={styles.centerBtnImage} />
+  <Image source={require('./Center_Icon.png')} style={styles.centerBtnImage} />
 
 const CenterBtn = btnFactory(CenterBtnView);
 
