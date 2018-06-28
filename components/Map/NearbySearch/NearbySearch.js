@@ -1,6 +1,8 @@
 import React from 'react';
 import {
+  TextInput,
   Text,
+  Image,
   View, 
   TouchableHighlight } from 'react-native';
 
