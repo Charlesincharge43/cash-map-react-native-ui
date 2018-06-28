@@ -12,7 +12,7 @@ export const handleGoogleMapsAPIResponse = (res) => {
   return res;
 }
 
-export const translateGoogleMapsNearbySearchResponse = (res) => {
+export const translateGoogleMapsNearbySearchResponse = (res, type) => {
   // console.log('translating')
   // console.log(res);
   
@@ -26,6 +26,7 @@ export const translateGoogleMapsNearbySearchResponse = (res) => {
       },
       identifier: place.id,
       title: place.name,
+      category: type,
       additionalDetails: place
     }
   })

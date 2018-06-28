@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import styles from './styles';
 import { setSelectedPOI } from '../../../redux/placesOfInterest';
+// import {  } from '../../../cashMapTempStore';
 
 
 /*
@@ -103,8 +104,32 @@ class MapViewContainer extends React.Component {
               /* Note.. MapView Markers MUST be DIRECT children of MapView.
               Trust me you will suffer mightily if you do not follow this rule!! */
               this.props.placesOfInterest.map((singleMarkerProps, idx) => {
+                // console.log(singleMarkerProps.category)
+                // console.log(this.props.ccHash)
+                const ccHash = this.props.ccHash;
+                const categoryKey = singleMarkerProps.category;
+                const categoryObj = ccHash[categoryKey];
+                const bestReward = categoryObj.cards[0].reward;
                 const getColor = (idx) => {
-                  return idx === this.state.selectedIdx ? 'yellow' : 'black';
+                  let color;
+                  if (idx === this.state.selectedIdx){
+                    color = 'yellow';
+                  } else {
+                    if (bestReward === 6){
+                      color = 'black';
+                    } else if (bestReward === 5){
+                      color = '#383838';
+                    } else if (bestReward === 4){
+                      color = '#686868';
+                    } else if (bestReward === 3){
+                      color = '#888888';
+                    } else if (bestReward === 2){
+                      color = '#A9A9A9';
+                    } else if (bestReward === 1){
+                      color = '#E8E8E8';
+                    }
+                  }
+                  return color;
                 }
                 return <MapView.Marker
                       key= {idx}
