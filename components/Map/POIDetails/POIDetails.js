@@ -8,6 +8,9 @@ import withAnimationVerticalSlide from '../../shared/hoc/withAnimationVerticalSl
 const deviceHeight = Dimensions.get('window').height;
 
 const getSymbols = (number, symbol) => {
+  if(!number){
+    number = 1;
+  }
   let symbols = '';
   roundedNumber = Math.round(number);
   while(roundedNumber > 0){
@@ -35,7 +38,11 @@ const getCardName = (cardCode) => {
   }
 }
 
-const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+capitalizeFirstLetter = (string) => {
+  let words = string.split('_').join(' ').split(' ');
+  capitalizedWords = words.map((word) => word.charAt(0).toUpperCase().concat(word.slice(1)));
+  return capitalizedWords.join(' ');
+}
 
 
 const POIDetailsView = (props) => {
@@ -52,9 +59,11 @@ const POIDetailsView = (props) => {
     bestCard = categoryObj.cards[0].card;
     bestReward = categoryObj.cards[0].reward;
 
+    console.log('place detail', placeDetail);
+
     otherCards = categoryObj.cards.slice(1);
     for(let i=0; i<otherCards.length; i++){
-      otherCardView.push(<Text key={i} style={styles.infoTextSmall}>Get {otherCards[i].reward}% back with {getCardName(otherCards[i].card)}!</Text>)
+      otherCardView.push(<Text key={i} style={styles.infoTextSmall}>Get {otherCards[i].reward}% back with {getCardName(otherCards[i].card)}</Text>)
     }
   }
 
@@ -75,7 +84,7 @@ const POIDetailsView = (props) => {
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.infoTextSmall}>{placeDetail.additionalDetails.vicinity}</Text>
             </View>
-            <View style={{flexDirection: 'row', paddingBottom: 1}}>
+            <View style={{flexDirection: 'row', paddingBottom: 2}}>
               <Text style={styles.stars}>{placeDetail.additionalDetails.rating} {getSymbols(placeDetail.additionalDetails.rating, '★')}</Text>
               <Text style={styles.infoTextSmallDivider}>·</Text>
               <Text style={styles.infoTextSmall}>{getSymbols(placeDetail.additionalDetails.price_level, '$')}</Text>
