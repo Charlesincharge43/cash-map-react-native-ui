@@ -3,19 +3,39 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#117ACA',
     alignItems: 'center',
     justifyContent: 'center',
   },
   textInput: {
+    fontSize: 20, 
+    backgroundColor: 'white',
     height: 40,
-    borderColor: 'gray',
+    borderColor: '#DDD',
+    marginTop: 10,
+    borderWidth: 2,
+    width: 300,
+  },
+  button: {
+    marginTop: 10,
+    backgroundColor: '#33BBFF',
+    height: 30,
+    width: 300,
     borderWidth: 1,
-    width: 250,
+    borderColor: '#DDD',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+  },
+  logo: {
+    width: 100,
+    height: 100,
   },
   colorRed: { color: 'red'},
   colorGreen: { color: 'green'},
-  
 });
 
 export default styles;
