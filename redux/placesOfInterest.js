@@ -204,3 +204,28 @@ function fetchPOIsThenCustomDispatchCMbackend(queryParams, actionCreator) {
       });
   }
 }
+
+export const searchByKeyword = (queryParams) => {
+  return dispatch => {
+    return axios.get('http://ec2-18-217-170-247.us-east-2.compute.amazonaws.com:3000/mapsQueryPlaces', {params: queryParams})
+      .then(res => {
+        console.log('res data?')
+        // console.log(res.data)
+        const place = res.data.results[0];
+        console.log('place?')
+        console.log(place)
+        const poi = {
+          coordinate: {
+            latitude: place.geometry.location.lat,
+            longitude: place.geometry.location.lng,
+          },
+          identifier: place.id,
+          title: place.name,
+          category: place.types[0],
+          additionalDetails: place
+        }
+        console.log(poi)
+        dispatch(setPlacesOfInterest([poi]));
+      })
+  }
+}

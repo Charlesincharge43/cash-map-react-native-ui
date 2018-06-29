@@ -27,7 +27,8 @@ class MapViewContainer extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps) {
-    // console.log('next props length : ',  nextProps.placesOfInterest.length)
+    // console.log(nextProps)
+    console.log('next props length : ',  nextProps.placesOfInterest.length)
     // console.log(nextProps)
     if (nextProps.placesOfInterest.length === 0) {
       return {
@@ -59,9 +60,13 @@ class MapViewContainer extends React.Component {
   }
 
   setSelectedIdx(idx) {
-
+    console.log('idx?')
+    console.log(idx)
     if (idx !== null) {
-      if (idx !== this.state.selectedIdx) {
+      console.log('here??')
+      console.log(this.state.selectedIdx)
+      if (idx !== this.state.selectedIdx || idx === 0) {
+        console.log('here?')
         this.props.showPOIDetails(idx);
         this.setState({
           selectedIdx: idx
@@ -69,6 +74,7 @@ class MapViewContainer extends React.Component {
       }
 
     } else {
+      console.log('here?2')
       this.props.hidePOIDetails(idx);
       this.setState({
         selectedIdx: idx
@@ -116,6 +122,8 @@ class MapViewContainer extends React.Component {
                 const ccHash = this.props.ccHash;
                 const categoryKey = singleMarkerProps.category;
                 const categoryObj = ccHash[categoryKey];
+                console.log('categoryobj')
+                console.log(categoryObj)
                 const bestReward = categoryObj.cards[0].reward;
                 const getImgSrc = (idx) => {
                   let imgSrc;

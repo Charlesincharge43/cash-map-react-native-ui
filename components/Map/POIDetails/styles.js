@@ -4,10 +4,12 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    height: 250,
+    height: 200,
     padding: 14,
   },
   cardLogo: {
+    width: 100,
+    resizeMode: 'cover',
   },
   placeHeading: {
     fontSize: 20,
@@ -15,10 +17,10 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   percent: {
-    color: 'orange',
-    fontSize: 20,
+    color: 'teal',
+    fontSize: 16,
     fontWeight: 'bold',
-    paddingBottom: 1,
+    fontStyle: 'italic',
   },
   placeImage: {
     width: 100,
@@ -34,6 +36,10 @@ const styles = StyleSheet.create({
   },
   infoTextSmall: {
     color: 'grey',
+    fontSize: 15,
+  },
+  stars: {
+    color: 'orange',
     fontSize: 15,
   },
   infoTextSmallDivider: {

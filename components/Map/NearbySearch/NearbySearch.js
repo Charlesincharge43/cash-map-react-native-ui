@@ -22,18 +22,20 @@ class NearbySearch extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChangeSearch(){
-    console.log('here')
+  handleChangeSearch(searchText){
+    console.log(searchText)
+    this.setState({searchText});
   }
 
-  handleSubmit(){
-    console.log('submit')
+  handleSubmit(keyword){
+    console.log(this.props)
+    this.props.loadPOIs(this.state.searchText);
   }
 
   render(){
     return (
       <View style={styles.search}>
-        <SearchBtn />
+        <SearchBtn onPress={this.handleSubmit}/>
         <TextInput style={styles.textInput} placeholder="search" onChangeText={this.handleChangeSearch}/>
       </View>
     )

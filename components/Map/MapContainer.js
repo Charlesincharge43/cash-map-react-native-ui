@@ -14,7 +14,7 @@ import withGeolocation from '../Map/hoc/withGeolocation';
 import MapViewContainer from './MapView/MapViewContainer';
 
 import { invertCCHash, allCreditCards } from '../../cashMapTempStore/cashmapStore';
-import { setPOIs, addPOIs, clearPOIs, setPOIsByTypes } from '../../redux/placesOfInterest';
+import { setPOIs, addPOIs, clearPOIs, setPOIsByTypes, searchByKeyword } from '../../redux/placesOfInterest';
 import { setCategoryHash } from '../../redux/ccHash';
 
 const ALERT = 'Warning';
@@ -58,7 +58,9 @@ class StatefulMap extends Component {
     this.hidePOIDetails = this.hidePOIDetails.bind(this);
   }
 
-  loadPOIs() {
+  loadPOIs(keyword) {
+    console.log('loading?')
+    console.log(keyword)
     this.setState({isLoading: true})
     const specificCCHash = {};
     this.state.userSelectedCreditCards.forEach(card => {
@@ -71,7 +73,7 @@ class StatefulMap extends Component {
     // console.log(types);
     const regionParams = this.state.trackCurrentPosition ? this.getCurrentRegion() : this.getSelectedRegion();
     const queryParams = Object.assign(regionParams, { types });
-    return this.props.setPOIsByTypes(queryParams)
+    if (!keyword){ return this.props.setPOIsByTypes(queryParams)
       .then(() => this.setState({isRedoSearchHidden: true, isLoading: false }))
       .catch((err) => {
         console.error(err)
@@ -81,6 +83,27 @@ class StatefulMap extends Component {
           ERROR_MESSAGE,
           [{text: 'OK'}])
       });
+    } else {
+      console.log('searchbykeyword?')
+      const currentRegion = this.getCurrentRegion();
+      const location = `${currentRegion.latitude},${currentRegion.longitude}`;
+      const radius = currentRegion.latitudeDelta * 40008000 / 720;
+      const keywordSearchQueryParams = {
+        location,
+        radius,
+        query: keyword
+      }
+      return this.props.searchByKeyword(keywordSearchQueryParams)
+      .then(() => this.setState({isRedoSearchHidden: true, isLoading: false }))
+      .catch((err) => {
+        console.error(err)
+        this.setState({isRedoSearchHidden: false, isLoading: false });
+        Alert.alert(
+          ALERT,
+          ERROR_MESSAGE,
+          [{text: 'OK'}])
+      });
+    }
   }
 
   showPOIDetails(selectedPOIDetailIdx) {
@@ -190,7 +213,7 @@ class StatefulMap extends Component {
     return (
       <View style={styles.mapContainer}>
         <Hamburger style={styles.topLeft} onPress={openDrawer} />
-        <NearbySearch />
+        <NearbySearch loadPOIs={this.loadPOIs} />
         <MapViewContainer
           trackCurrentPosition={this.state.trackCurrentPosition}
           region={this.getCurrentRegion()}
@@ -213,6 +236,6 @@ class StatefulMap extends Component {
 }
 
 const mapStateToProps = ({ auth }) => ({ auth });
-const mapDispatchToProps = { setPOIs, addPOIs, clearPOIs, setPOIsByTypes, setCategoryHash };
+const mapDispatchToProps = { setPOIs, addPOIs, clearPOIs, setPOIsByTypes, setCategoryHash, searchByKeyword };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withGeolocation(StatefulMap));
