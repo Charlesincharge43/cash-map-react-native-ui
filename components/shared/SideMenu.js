@@ -6,12 +6,17 @@ import styles from './styles'
 
 const SideMenu = (props) => 
 <View style={styles.sideMenu}>
-  <View style={{height: 100}}>
+  <View style={{height: 50}}>
     <Text>
-      Profile Placeholder
     </Text>
   </View>
-  <DrawerItems {...props} />
+  <View>
+    <Image source={require('./savings.png')} style={styles.logo} /> 
+    <Image source={require('./settings.png')} style={styles.logo} /> 
+    <Image source={require('./logout.png')} style={styles.logo} /> 
+    <Image source={require('./aboutus.png')} style={styles.logo} /> 
+    <Image source={require('./contactus.png')} style={styles.logo} /> 
+  </View>
 </View>
 
 export default SideMenu;

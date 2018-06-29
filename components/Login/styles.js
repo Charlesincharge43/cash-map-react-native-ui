@@ -32,8 +32,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 170,
+    height: 170,
+    top: 110,
+  },
+  logotext: {
+    width: 170,
+    height: 170,
+    top: 75,
   },
   colorRed: { color: 'red'},
   colorGreen: { color: 'green'},

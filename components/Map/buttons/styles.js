@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
   },
 
   redoBtnImage: {
-    width: 80,
-    height: 100,
+    width: 60,
+    height: 60,
     resizeMode: 'stretch'
   },
 

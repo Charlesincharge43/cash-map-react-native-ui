@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
   },
   bottomRightLower: {
     position: 'absolute',
-    bottom: 20,
-    right: 25,
+    bottom: 27,
+    right: 35,
   },
 })
 
