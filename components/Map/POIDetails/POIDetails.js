@@ -46,8 +46,6 @@ capitalizeFirstLetter = (string) => {
 
 
 const POIDetailsView = (props) => {
-  console.log('hidden in component?')
-  console.log(props.isHidden)
   let placeDetail;
   let bestCard;
   let bestReward;
@@ -60,8 +58,6 @@ const POIDetailsView = (props) => {
     let categoryObj = props.ccHash[categoryKey];
     bestCard = categoryObj.cards[0].card;
     bestReward = categoryObj.cards[0].reward;
-
-    console.log('place detail', placeDetail);
 
     otherCards = categoryObj.cards.slice(1);
     for(let i=0; i<otherCards.length; i++){
