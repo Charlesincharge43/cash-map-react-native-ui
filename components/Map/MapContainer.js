@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, Alert } from 'react-native';
+import { View, ActivityIndicator, Alert, Image } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -222,7 +222,7 @@ class StatefulMap extends Component {
           onMapReady={this.onMapReady}
           showPOIDetails={ this.showPOIDetails }
           hidePOIDetails={ this.hidePOIDetails } />
-
+        <Image style={{height: 170, width:100, top: 80, left: 10}} source={require('./creditcardimagelist.png')} />
         <CenterBtn style={styles.bottomRight} onPress={this.centerMapToCurrentPosition} />
 
         <RedoSearchBtn isHidden={this.state.isRedoSearchHidden || !this.state.isPOIDetailsHidden } style={styles.bottomRightLower} onPress={this.loadPOIs}/>

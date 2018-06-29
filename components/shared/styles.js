@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
     top: 35,
     flexDirection: 'column',
   },
+  logo: {
+    height: 50,
+    width: 200,
+  },
 });
 
 export default styles;
